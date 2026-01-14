@@ -7,17 +7,11 @@
 #include "../../common/thread_utils.h"
 #include "../../common/csv_utils.h"
 
-/* ============================================================
-   TODO: IMPLEMENT THIS FUNCTION ONLY
-   ============================================================ */
-void compute_kernel(Matrix A, Matrix B, Matrix C,
-                    int start_row, int end_row) {
+void compute_kernel(Matrix A, Matrix B, Matrix C, int start_row, int end_row) {
     int N = A.rows;
-
-    for (int d = 0; d < 2*N - 1; d++) {
+    for (int d = 0; d < 2 * N - 1; d++) {
         int r = (d < N) ? d : N - 1;
         int c = d - r;
-
         while (r >= 0 && c < N) {
             if (r >= start_row && r < end_row) {
                 C.data[r][c] = A.data[r][c] + B.data[r][c];
@@ -28,34 +22,24 @@ void compute_kernel(Matrix A, Matrix B, Matrix C,
     }
 }
 
-/* ============================================================ */
-
 void* thread_entry(void *arg) {
     thread_arg_t *t = (thread_arg_t*)arg;
-    compute_kernel(
-        *(Matrix*)t->A,
-        *(Matrix*)t->B,
-        *(Matrix*)t->C,
-        t->start_row,
-        t->end_row
-    );
+    compute_kernel(*(Matrix*)t->A, *(Matrix*)t->B, *(Matrix*)t->C, t->start_row, t->end_row);
     return NULL;
 }
 
 int main() {
-
     int matrix_sizes[] = {256, 512, 1024, 2048};
     int num_sizes = 4;
     int thread_counts[] = {1, 2, 4, 8, 16};
     int num_threads = 5;
 
-    FILE *fp = fopen("../../reports/Q4_results/blocked.csv", "w");
+    FILE *fp = fopen("../../reports/Q2_results/diagonal.csv", "w");
     fprintf(fp, "matrix_size,threads,time_seconds\n");
     fclose(fp);
 
     for (int s = 0; s < num_sizes; s++) {
         int N = matrix_sizes[s];
-
         for (int t = 0; t < num_threads; t++) {
             int T = thread_counts[t];
 
@@ -71,18 +55,15 @@ int main() {
             thread_arg_t args[T];
 
             int rows_per_thread = N / T;
-
             start_timer();
 
             for (int i = 0; i < T; i++) {
                 args[i].thread_id = i;
                 args[i].start_row = i * rows_per_thread;
-                args[i].end_row =
-                    (i == T - 1) ? N : (i + 1) * rows_per_thread;
+                args[i].end_row = (i == T - 1) ? N : (i + 1) * rows_per_thread;
                 args[i].A = &A;
                 args[i].B = &B;
                 args[i].C = &C;
-
                 pthread_create(&threads[i], NULL, thread_entry, &args[i]);
             }
 
@@ -92,12 +73,7 @@ int main() {
 
             double time_taken = stop_timer();
 
-            write_csv(
-                "../../reports/Q4_results/blocked.csv",
-                N,
-                T,
-                time_taken
-            );
+            write_csv("../../reports/Q2_results/diagonal.csv", N, T, time_taken);
 
             free_matrix(A);
             free_matrix(B);

@@ -5,17 +5,13 @@
 #include "../../common/timing.h"
 #include "../../common/csv_utils.h"
 
-/* ============================================================
-   TODO: IMPLEMENT THIS FUNCTION ONLY
-   ============================================================ */
 void compute_kernel(Matrix A, Matrix B, Matrix C) {
     int N = A.rows;
 
-    for (int d = 0; d < 2*N - 1; d++) {
+    for (int d = 0; d < 2 * N - 1; d++) {
         if (d % 2 == 0) {
             int r = (d < N) ? d : N - 1;
             int c = d - r;
-
             while (r >= 0 && c < N) {
                 C.data[r][c] = A.data[r][c] + B.data[r][c];
                 r--;
@@ -24,7 +20,6 @@ void compute_kernel(Matrix A, Matrix B, Matrix C) {
         } else {
             int c = (d < N) ? d : N - 1;
             int r = d - c;
-
             while (c >= 0 && r < N) {
                 C.data[r][c] = A.data[r][c] + B.data[r][c];
                 r++;
@@ -34,14 +29,11 @@ void compute_kernel(Matrix A, Matrix B, Matrix C) {
     }
 }
 
-/* ============================================================ */
-
 int main() {
-
     int matrix_sizes[] = {256, 512, 1024, 2048};
     int num_sizes = 4;
 
-    FILE *fp = fopen("../../reports/Q1_results/row_major.csv", "w");
+    FILE *fp = fopen("../../reports/Q1_results/zigzag.csv", "w");
     fprintf(fp, "matrix_size,threads,time_seconds\n");
     fclose(fp);
 
@@ -60,12 +52,7 @@ int main() {
         compute_kernel(A, B, C);
         double time_taken = stop_timer();
 
-        write_csv(
-            "../../reports/Q1_results/row_major.csv",
-            N,
-            1,
-            time_taken
-        );
+        write_csv("../../reports/Q1_results/zigzag.csv", N, 1, time_taken);
 
         free_matrix(A);
         free_matrix(B);

@@ -5,9 +5,6 @@
 #include "../../common/timing.h"
 #include "../../common/csv_utils.h"
 
-/* ============================================================
-   TODO: IMPLEMENT THIS FUNCTION ONLY
-   ============================================================ */
 void compute_kernel(Matrix A, Matrix B, Matrix C) {
     int N = A.rows;
     int BS = 32;
@@ -29,14 +26,11 @@ void compute_kernel(Matrix A, Matrix B, Matrix C) {
     }
 }
 
-/* ============================================================ */
-
 int main() {
-
     int matrix_sizes[] = {256, 512, 1024, 2048};
     int num_sizes = 4;
 
-    FILE *fp = fopen("../../reports/Q1_results/row_major.csv", "w");
+    FILE *fp = fopen("../../reports/Q3_results/blocked.csv", "w");
     fprintf(fp, "matrix_size,threads,time_seconds\n");
     fclose(fp);
 
@@ -56,7 +50,7 @@ int main() {
         double time_taken = stop_timer();
 
         write_csv(
-            "../../reports/Q1_results/row_major.csv",
+            "../../reports/Q3_results/blocked.csv",
             N,
             1,
             time_taken
