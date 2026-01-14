@@ -12,8 +12,22 @@
    ============================================================ */
 void compute_kernel(Matrix A, Matrix B, Matrix C,
                     int start_row, int end_row) {
-    /* Implement your access pattern here */
+    int N = A.rows;
+
+    for (int d = 0; d < 2*N - 1; d++) {
+        int r = (d < N) ? d : N - 1;
+        int c = d - r;
+
+        while (r >= 0 && c < N) {
+            if (r >= start_row && r < end_row) {
+                C.data[r][c] = A.data[r][c] + B.data[r][c];
+            }
+            r--;
+            c++;
+        }
+    }
 }
+
 /* ============================================================ */
 
 void* thread_entry(void *arg) {
