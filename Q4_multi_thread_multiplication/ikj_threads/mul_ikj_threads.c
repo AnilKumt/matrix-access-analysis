@@ -12,8 +12,18 @@
    ============================================================ */
 void compute_kernel(Matrix A, Matrix B, Matrix C,
                     int start_row, int end_row) {
-    /* Implement your access pattern here */
+    int N = A.rows;
+
+    for (int i = start_row; i < end_row; i++) {
+        for (int k = 0; k < N; k++) {
+            double a = A.data[i][k];
+            for (int j = 0; j < N; j++) {
+                C.data[i][j] += a * B.data[k][j];
+            }
+        }
+    }
 }
+
 /* ============================================================ */
 
 void* thread_entry(void *arg) {
