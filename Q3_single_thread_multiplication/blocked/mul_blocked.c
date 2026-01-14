@@ -9,8 +9,26 @@
    TODO: IMPLEMENT THIS FUNCTION ONLY
    ============================================================ */
 void compute_kernel(Matrix A, Matrix B, Matrix C) {
-    /* Implement your access pattern here */
+    int N = A.rows;
+    int BS = 32;
+
+    for (int ii = 0; ii < N; ii += BS) {
+        for (int jj = 0; jj < N; jj += BS) {
+            for (int kk = 0; kk < N; kk += BS) {
+                for (int i = ii; i < ii + BS && i < N; i++) {
+                    for (int j = jj; j < jj + BS && j < N; j++) {
+                        double sum = C.data[i][j];
+                        for (int k = kk; k < kk + BS && k < N; k++) {
+                            sum += A.data[i][k] * B.data[k][j];
+                        }
+                        C.data[i][j] = sum;
+                    }
+                }
+            }
+        }
+    }
 }
+
 /* ============================================================ */
 
 int main() {
