@@ -7,14 +7,16 @@
 #include "../../common/thread_utils.h"
 #include "../../common/csv_utils.h"
 
-/* ============================================================
-   TODO: IMPLEMENT THIS FUNCTION ONLY
-   ============================================================ */
-void compute_kernel(Matrix A, Matrix B, Matrix C,
-                    int start_row, int end_row) {
-    /* Implement your access pattern here */
+
+void compute_kernel(Matrix A, Matrix B, Matrix C,int start_row, int end_row) {
+    int n = A.N;
+    for (int j = 0; j < n; j++) {
+        for (int i = start_row; i < end_row; i++) {
+            C.data[i][j] = A.data[i][j] + B.data[i][j];
+        }
+    }    
 }
-/* ============================================================ */
+
 
 void* thread_entry(void *arg) {
     thread_arg_t *t = (thread_arg_t*)arg;
@@ -35,7 +37,7 @@ int main() {
     int thread_counts[] = {1, 2, 4, 8, 16};
     int num_threads = 5;
 
-    FILE *fp = fopen("../../reports/Q4_results/blocked.csv", "w");
+    FILE *fp = fopen("../../reports/Q2_results/column_major.csv", "w");
     fprintf(fp, "matrix_size,threads,time_seconds\n");
     fclose(fp);
 
@@ -79,7 +81,7 @@ int main() {
             double time_taken = stop_timer();
 
             write_csv(
-                "../../reports/Q4_results/blocked.csv",
+                "../../reports/Q2_results/column_major.csv",
                 N,
                 T,
                 time_taken

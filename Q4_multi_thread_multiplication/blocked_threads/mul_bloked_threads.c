@@ -7,14 +7,37 @@
 #include "../../common/thread_utils.h"
 #include "../../common/csv_utils.h"
 
-/* ============================================================
-   TODO: IMPLEMENT THIS FUNCTION ONLY
-   ============================================================ */
+#define BLOCK_SIZE 32
+
 void compute_kernel(Matrix A, Matrix B, Matrix C,
                     int start_row, int end_row) {
-    /* Implement your access pattern here */
+    int N = A.N;
+    int BS = BLOCK_SIZE;
+
+    for (int ii = start_row; ii < end_row; ii += BS) {
+        int i_max = (ii + BS < end_row) ? ii + BS : end_row;
+
+        for (int jj = 0; jj < N; jj += BS) {
+            int j_max = (jj + BS < N) ? jj + BS : N;
+
+            for (int kk = 0; kk < N; kk += BS) {
+                int k_max = (kk + BS < N) ? kk + BS : N;
+
+                for (int i = ii; i < i_max; i++) {
+                    for (int j = jj; j < j_max; j++) {
+                        double sum = C.data[i][j];
+                        for (int k = kk; k < k_max; k++) {
+                            sum += A.data[i][k] * B.data[k][j];
+                        }
+                        C.data[i][j] = sum;
+                    }
+                }
+            }
+        }
+    }
 }
-/* ============================================================ */
+
+
 
 void* thread_entry(void *arg) {
     thread_arg_t *t = (thread_arg_t*)arg;
