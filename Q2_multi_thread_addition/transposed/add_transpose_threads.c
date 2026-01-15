@@ -13,6 +13,13 @@
 void compute_kernel(Matrix A, Matrix B, Matrix C,
                     int start_row, int end_row) {
     /* Implement your access pattern here */
+	int n = A.N;
+	
+	for(int j = 0; j < n; j++) {
+		for(int i = start_row; i < end_row; i++) {
+			C.data[i][j] = A.data[i][j] + B.data[i][j];
+		}
+	}	
 }
 /* ============================================================ */
 
@@ -79,7 +86,7 @@ int main() {
             double time_taken = stop_timer();
 
             write_csv(
-                "../../reports/Q4_results/blocked.csv",
+                "../../reports/Q2_results/transposed.csv",
                 N,
                 T,
                 time_taken
