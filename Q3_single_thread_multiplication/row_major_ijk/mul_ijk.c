@@ -10,6 +10,16 @@
    ============================================================ */
 void compute_kernel(Matrix A, Matrix B, Matrix C) {
     /* Implement your access pattern here */
+	int n = A.N;
+	for(int i = 0; i < n; i++) {
+		for(int j = 0; j < n; j++) {
+			double sum = 0.0;
+			for(int k = 0; k < n; k++) {
+				sum += A.data[i][k] * B.data[k][j]; 
+			}
+			C.data[i][j] = sum;
+		}
+	}
 }
 /* ============================================================ */
 
@@ -18,7 +28,7 @@ int main() {
     int matrix_sizes[] = {256, 512, 1024, 2048};
     int num_sizes = 4;
 
-    FILE *fp = fopen("../../reports/Q1_results/row_major.csv", "w");
+    FILE *fp = fopen("../../reports/Q3_results/row_major_ijk.csv", "w");
     fprintf(fp, "matrix_size,threads,time_seconds\n");
     fclose(fp);
 
@@ -38,7 +48,7 @@ int main() {
         double time_taken = stop_timer();
 
         write_csv(
-            "../../reports/Q1_results/row_major.csv",
+            "../../reports/Q3_results/row_major_ijk.csv",
             N,
             1,
             time_taken
