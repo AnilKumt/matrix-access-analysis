@@ -4,26 +4,46 @@
 
 #include "../../common/matrix_utils.h"
 #include "../../common/timing.h"
-#include "../../common/thread_utils.h"
+// #include "../../common/thread_utils.h"
 #include "../../common/csv_utils.h"
 
+// Thread argument structure
+typedef struct {
+    int thread_id;   // The ID of this thread
+    int num_threads; // Total number of threads
+    Matrix *A;
+    Matrix *B;
+    Matrix *C;
+} thread_arg_t;
+
 /* ============================================================
-   TODO: IMPLEMENT THIS FUNCTION ONLY
+   Compute kernel using cyclic row partitioning
+   Each thread computes every num_threads-th row starting from its thread_id
    ============================================================ */
 void compute_kernel(Matrix A, Matrix B, Matrix C,
-                    int start_row, int end_row) {
-    /* Implement your access pattern here */
+                    int thread_id, int num_threads) {
+    int N = A.N;
+
+    for (int i = thread_id; i < N; i += num_threads) { // cyclic row assignment
+        for (int j = 0; j < N; j++) {
+            double sum = 0.0;
+            for (int k = 0; k < N; k++) {
+                sum += A.data[i][k] * B.data[k][j];
+            }
+            C.data[i][j] = sum;
+        }
+    }
 }
 /* ============================================================ */
 
 void* thread_entry(void *arg) {
     thread_arg_t *t = (thread_arg_t*)arg;
     compute_kernel(
-        *(Matrix*)t->A,
-        *(Matrix*)t->B,
-        *(Matrix*)t->C,
-        t->start_row,
-        t->end_row
+        *(t->A),
+        *(t->B),
+        *(t->C),
+        t->thread_id,
+        t->num_threads
     );
     return NULL;
 }
@@ -35,7 +55,7 @@ int main() {
     int thread_counts[] = {1, 2, 4, 8, 16};
     int num_threads = 5;
 
-    FILE *fp = fopen("../../reports/Q4_results/blocked.csv", "w");
+    FILE *fp = fopen("../../reports/Q4_results/cyclic_row_partition.csv", "w");
     fprintf(fp, "matrix_size,threads,time_seconds\n");
     fclose(fp);
 
@@ -56,15 +76,11 @@ int main() {
             pthread_t threads[T];
             thread_arg_t args[T];
 
-            int rows_per_thread = N / T;
-
             start_timer();
 
             for (int i = 0; i < T; i++) {
                 args[i].thread_id = i;
-                args[i].start_row = i * rows_per_thread;
-                args[i].end_row =
-                    (i == T - 1) ? N : (i + 1) * rows_per_thread;
+                args[i].num_threads = T;
                 args[i].A = &A;
                 args[i].B = &B;
                 args[i].C = &C;
@@ -79,7 +95,7 @@ int main() {
             double time_taken = stop_timer();
 
             write_csv(
-                "../../reports/Q4_results/blocked.csv",
+                "../../reports/Q4_results/cyclic_row_partition.csv",
                 N,
                 T,
                 time_taken
@@ -93,3 +109,4 @@ int main() {
 
     return 0;
 }
+
