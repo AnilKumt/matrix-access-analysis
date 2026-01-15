@@ -3,3 +3,4 @@ matrix_size,threads,time_seconds
 512,1,0.546493
 1024,1,4.176837
 2048,1,35.729299
+
