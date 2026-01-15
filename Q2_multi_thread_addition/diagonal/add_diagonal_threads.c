@@ -8,7 +8,7 @@
 #include "../../common/csv_utils.h"
 
 void compute_kernel(Matrix A, Matrix B, Matrix C, int start_row, int end_row) {
-    int N = A.rows;
+    int N = A.N;
     for (int d = 0; d < 2 * N - 1; d++) {
         int r = (d < N) ? d : N - 1;
         int c = d - r;

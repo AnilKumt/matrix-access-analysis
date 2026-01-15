@@ -6,7 +6,7 @@
 #include "../../common/csv_utils.h"
 
 void compute_kernel(Matrix A, Matrix B, Matrix C) {
-    int N = A.rows;
+    int N = A.N;
     int BS = 32;
 
     for (int ii = 0; ii < N; ii += BS) {
