@@ -42,7 +42,7 @@ int main() {
     int thread_counts[] = {1, 2, 4, 8, 16};
     int num_threads = 5;
 
-    FILE *fp = fopen("../../reports/Q4_results/blocked.csv", "w");
+    FILE *fp = fopen("../../reports/Q2_results/transposed.csv", "w");
     fprintf(fp, "matrix_size,threads,time_seconds\n");
     fclose(fp);
 
