@@ -12,3 +12,4 @@ Blocked access splits the matrix into smaller submatrices (blocks) to improve ca
 For single-threaded execution, computation still proceeds sequentially within each block.
 As matrix size increases, execution time grows roughly proportionally to the number of elements, but blocking slightly improves cache reuse compared to naive row-major access.
 Performance scales reasonably well for small matrices, but larger matrices eventually exceed cache capacity, causing more memory traffic and slowing execution.
+Block Size is taken as 32, which can be found using ```getconf LEVEL1_DCACHE_LINESIZE```, which is system specific.

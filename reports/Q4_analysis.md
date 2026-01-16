@@ -8,4 +8,4 @@ speedup. Larger matrices benefit more from increased thread counts.
 
 ### Cyclic Row Partitioning (Multi-threaded)
 
-Cyclic row partition balances work by assigning matrix rows to threads in a round-robin fashion, keeping all cores busy and reducing idle time. Performance scales with thread count for larger matrices, but small matrices see little benefit because overhead dominates. As thread count increases, speedup eventually saturates due to memory bandwidth limits and synchronization overhead.
+Cyclic row partition balances work by assigning matrix rows to threads in a round-robin fashion, keeping all cores busy and reducing idle time. Performance scales with thread count for larger matrices, but small matrices see little benefit because overhead dominates. As thread count increases, speedup eventually saturates due to memory bandwidth limits and synchronization overhead. Like, if number of threads are 3, 1st thread takes 1, 4, 7, ...
