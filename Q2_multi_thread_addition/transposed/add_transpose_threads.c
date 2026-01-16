@@ -23,6 +23,18 @@ void compute_kernel(Matrix A, Matrix B, Matrix C,
 }
 /* ============================================================ */
 
+void transpose(Matrix A) {
+	int n = A.N;
+	int temp = 0;
+	for(int i = 0; i < n; i++) {
+		for(int j = 0; j < n; j++) {
+			temp = A.data[i][j];
+			A.data[i][j] = A.data[j][i];
+			A.data[j][i] = temp;	
+		}
+	}
+}
+
 void* thread_entry(void *arg) {
     thread_arg_t *t = (thread_arg_t*)arg;
     compute_kernel(
@@ -59,6 +71,9 @@ int main() {
             init_matrix(A);
             init_matrix(B);
             zero_matrix(C);
+
+	    transpose(A);
+	    transpose(B);
 
             pthread_t threads[T];
             thread_arg_t args[T];
