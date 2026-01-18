@@ -9,7 +9,29 @@
    TODO: IMPLEMENT THIS FUNCTION ONLY
    ============================================================ */
 void compute_kernel(Matrix A, Matrix B, Matrix C) {
-    /* Implement your access pattern here */
+     int N = A.N;
+
+    /* Transpose B into a temporary matrix */
+    Matrix BT = allocate_matrix(N);
+
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            BT.data[j][i] = B.data[i][j];
+        }
+    }
+
+    /* Matrix multiplication using transposed B */
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            double sum = 0.0;
+            for (int k = 0; k < N; k++) {
+                sum += A.data[i][k] * BT.data[j][k];
+            }
+            C.data[i][j] = sum;
+        }
+    }
+
+    free_matrix(BT);
 }
 /* ============================================================ */
 
@@ -18,7 +40,7 @@ int main() {
     int matrix_sizes[] = {256, 512, 1024, 2048};
     int num_sizes = 4;
 
-    FILE *fp = fopen("../../reports/Q1_results/row_major.csv", "w");
+    FILE *fp = fopen("../../reports/Q3_results/transpose_based.csv", "w");
     fprintf(fp, "matrix_size,threads,time_seconds\n");
     fclose(fp);
 
@@ -38,7 +60,7 @@ int main() {
         double time_taken = stop_timer();
 
         write_csv(
-            "../../reports/Q1_results/row_major.csv",
+            "../../reports/Q3_results/transpose_based.csv",
             N,
             1,
             time_taken
