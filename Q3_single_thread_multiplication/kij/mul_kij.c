@@ -9,7 +9,19 @@
    TODO: IMPLEMENT THIS FUNCTION ONLY
    ============================================================ */
 void compute_kernel(Matrix A, Matrix B, Matrix C) {
-    /* Implement your access pattern here */
+    /* K-I-J access pattern for matrix multiplication */
+    int N = A.cols;
+    
+    // K loop (innermost computation dimension)
+    for (int k = 0; k < N; k++) {
+        // I loop (row dimension)
+        for (int i = 0; i < N; i++) {
+            // J loop (column dimension)
+            for (int j = 0; j < N; j++) {
+                C.data[i * N + j] += A.data[i * N + k] * B.data[k * N + j];
+            }
+        }
+    }
 }
 /* ============================================================ */
 
@@ -51,3 +63,4 @@ int main() {
 
     return 0;
 }
+
