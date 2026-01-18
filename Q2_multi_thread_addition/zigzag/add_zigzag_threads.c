@@ -12,7 +12,18 @@
    ============================================================ */
 void compute_kernel(Matrix A, Matrix B, Matrix C,
                     int start_row, int end_row) {
-    /* Implement your access pattern here */
+    int N = A.cols;
+    
+    for (int diag = start_row; diag < end_row; diag++) {
+        // For each diagonal, access elements in a zigzag manner
+        // Diagonal k contains elements where i + j = k
+        for (int i = 0; i <= diag && i < N; i++) {
+            int j = diag - i;
+            if (j >= 0 && j < N) {
+                C.data[i * N + j] = A.data[i * N + j] + B.data[i * N + j];
+            }
+        }
+    }
 }
 /* ============================================================ */
 
@@ -93,3 +104,4 @@ int main() {
 
     return 0;
 }
+
