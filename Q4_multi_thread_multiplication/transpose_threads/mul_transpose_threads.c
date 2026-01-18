@@ -12,7 +12,21 @@
    ============================================================ */
 void compute_kernel(Matrix A, Matrix B, Matrix C,
                     int start_row, int end_row) {
-    /* Implement your access pattern here */
+    int N = A.cols;
+    
+    // Each thread computes its assigned rows of C
+    for (int i = start_row; i < end_row; i++) {
+        for (int j = 0; j < N; j++) {
+            double sum = 0.0;
+            // Access B in transposed manner (row-wise instead of column-wise)
+            for (int k = 0; k < N; k++) {
+                // A is accessed normally (row-major)
+                // B is accessed in transposed form (B[j][k] instead of B[k][j])
+                sum += A.data[i * N + k] * B.data[j * N + k];
+            }
+            C.data[i * N + j] = sum;
+        }
+    }
 }
 /* ============================================================ */
 
@@ -93,3 +107,4 @@ int main() {
 
     return 0;
 }
+
