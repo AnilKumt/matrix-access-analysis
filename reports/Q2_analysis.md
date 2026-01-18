@@ -18,5 +18,9 @@ These access method assumes the matrix is stored in column wise, which then tran
 ### Cache-Oblivious Recursive (Multi-threaded)
 
 This access takes advantage of the recursive and different sizes of caches, divides the problem in smaller problems. Looks like blocked access but differs slightly. In blocked access, the blocks are fixed size for an implementation, but this one divides the matrix, like 128x128 to 64x64 to 32x32, which has different sizes which can be fit in different caches.
-Since the method is also done on multi-threads, this can potentially offer a better speedup than the naive method. The term cache-oblivious is used since the problem is divided
-till the problem fits the cache line.
+Since the method is also done on multi-threads, this can potentially offer a better speedup than the naive method. The term cache-oblivious is used since the problem is divided till the problem fits the cache line.
+
+### Blocked Access (Multi-threaded)
+
+Compared to simple row-partitioned addition, blocked multi-threaded access improves cache locality by operating on smaller submatrices, leading to better performance at low to moderate thread counts. As the number of threads increases, execution time initially decreases due to parallelism, but gains diminish as memory bandwidth becomes the bottleneck. For large matrices, blocked access consistently outperforms row-partitioned access, though scalability is ultimately limited by memory access overhead.
+
