@@ -12,7 +12,22 @@
    ============================================================ */
 void compute_kernel(Matrix A, Matrix B, Matrix C,
                     int start_row, int end_row) {
-    /* Implement your access pattern here */
+    int N = A.N;
+    int BS = 32;   // block size
+
+    for (int kk = 0; kk < N; kk += BS) {
+        int k_end = (kk + BS < N) ? kk + BS : N;
+
+        for (int i = start_row; i < end_row; i++) {
+            for (int k = kk; k < k_end; k++) {
+                double a_ik = A.data[i][k];
+
+                for (int j = 0; j < N; j++) {
+                    C.data[i][j] += a_ik * B.data[k][j];
+                }
+            }
+        }
+    }
 }
 /* ============================================================ */
 
@@ -35,7 +50,7 @@ int main() {
     int thread_counts[] = {1, 2, 4, 8, 16};
     int num_threads = 5;
 
-    FILE *fp = fopen("../../reports/Q4_results/blocked.csv", "w");
+    FILE *fp = fopen("../../reports/Q4_results/kij_threads.csv", "w");
     fprintf(fp, "matrix_size,threads,time_seconds\n");
     fclose(fp);
 
@@ -79,7 +94,7 @@ int main() {
             double time_taken = stop_timer();
 
             write_csv(
-                "../../reports/Q4_results/blocked.csv",
+                "../../reports/Q4_results/kij_threads.csv",
                 N,
                 T,
                 time_taken
