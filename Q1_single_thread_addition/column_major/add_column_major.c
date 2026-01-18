@@ -9,7 +9,16 @@
    TODO: IMPLEMENT THIS FUNCTION ONLY
    ============================================================ */
 void compute_kernel(Matrix A, Matrix B, Matrix C) {
-    /* Implement your access pattern here */
+    int N = A.cols;  // Assuming square matrices
+    
+    // Iterate through columns first (outer loop)
+    for (int j = 0; j < N; j++) {
+        // Then iterate through rows (inner loop)
+        for (int i = 0; i < N; i++) {
+            C.data[i * N + j] = A.data[i * N + j] + B.data[i * N + j];
+        }
+    }
+   
 }
 /* ============================================================ */
 
@@ -51,3 +60,4 @@ int main() {
 
     return 0;
 }
+
