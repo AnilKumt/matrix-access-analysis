@@ -9,7 +9,25 @@
    TODO: IMPLEMENT THIS FUNCTION ONLY
    ============================================================ */
 void compute_kernel(Matrix A, Matrix B, Matrix C) {
-    /* Implement your access pattern here */
+    int n = A.N;
+
+    for (int d = 0; d <= 2 * (n - 1); d++) {
+
+        int i_start, i_end;
+
+        if (d < n) {
+            i_start = d;
+            i_end = 0;
+        } else {
+            i_start = n - 1;
+            i_end = d - (n - 1);
+        }
+
+        for (int i = i_start; i >= i_end; i--) {
+            int j = d - i;
+            C.data[i][j] = A.data[i][j] + B.data[i][j];
+        }
+    }
 }
 /* ============================================================ */
 
@@ -51,3 +69,4 @@ int main() {
 
     return 0;
 }
+
