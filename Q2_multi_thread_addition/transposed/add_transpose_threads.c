@@ -7,12 +7,10 @@
 #include "../../common/thread_utils.h"
 #include "../../common/csv_utils.h"
 
-/* ============================================================
-   TODO: IMPLEMENT THIS FUNCTION ONLY
-   ============================================================ */
+
 void compute_kernel(Matrix A, Matrix B, Matrix C,
                     int start_row, int end_row) {
-    /* Implement your access pattern here */
+    
 	int n = A.N;
 	
 	for(int j = 0; j < n; j++) {
@@ -21,7 +19,7 @@ void compute_kernel(Matrix A, Matrix B, Matrix C,
 		}
 	}	
 }
-/* ============================================================ */
+
 
 void transpose(Matrix A) {
 	int n = A.N;

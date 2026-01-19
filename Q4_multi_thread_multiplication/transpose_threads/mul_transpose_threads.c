@@ -7,28 +7,22 @@
 #include "../../common/thread_utils.h"
 #include "../../common/csv_utils.h"
 
-/* ============================================================
-   TODO: IMPLEMENT THIS FUNCTION ONLY
-   ============================================================ */
+
 void compute_kernel(Matrix A, Matrix B, Matrix C,
                     int start_row, int end_row) {
-    int N = A.cols;
+    int N = A.N;
     
-    // Each thread computes its assigned rows of C
     for (int i = start_row; i < end_row; i++) {
         for (int j = 0; j < N; j++) {
             double sum = 0.0;
-            // Access B in transposed manner (row-wise instead of column-wise)
             for (int k = 0; k < N; k++) {
-                // A is accessed normally (row-major)
-                // B is accessed in transposed form (B[j][k] instead of B[k][j])
-                sum += A.data[i * N + k] * B.data[j * N + k];
+                sum += A.data[i][k] * B.data[j][k];
             }
-            C.data[i * N + j] = sum;
+            C.data[i][j] = sum;
         }
     }
 }
-/* ============================================================ */
+
 
 void* thread_entry(void *arg) {
     thread_arg_t *t = (thread_arg_t*)arg;
@@ -49,7 +43,7 @@ int main() {
     int thread_counts[] = {1, 2, 4, 8, 16};
     int num_threads = 5;
 
-    FILE *fp = fopen("../../reports/Q4_results/blocked.csv", "w");
+    FILE *fp = fopen("../../reports/Q4_results/transpose_threads.csv", "w");
     fprintf(fp, "matrix_size,threads,time_seconds\n");
     fclose(fp);
 
@@ -93,7 +87,7 @@ int main() {
             double time_taken = stop_timer();
 
             write_csv(
-                "../../reports/Q4_results/blocked.csv",
+                "../../reports/Q4_results/transpose_threads.csv",
                 N,
                 T,
                 time_taken

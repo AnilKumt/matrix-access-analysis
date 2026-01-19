@@ -5,11 +5,7 @@
 #include "../../common/timing.h"
 #include "../../common/csv_utils.h"
 
-/* ============================================================
-   TODO: IMPLEMENT THIS FUNCTION ONLY
-   ============================================================ */
 void compute_kernel(Matrix A, Matrix B, Matrix C) {
-    /* Implement your access pattern here */
 	int n = A.N;
 	for(int i = 0; i < n; i++) {
 		for(int j = 0; j < n; j++) {
@@ -21,7 +17,7 @@ void compute_kernel(Matrix A, Matrix B, Matrix C) {
 		}
 	}
 }
-/* ============================================================ */
+
 
 int main() {
 

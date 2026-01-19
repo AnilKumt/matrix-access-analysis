@@ -5,9 +5,7 @@
 #include "../../common/timing.h"
 #include "../../common/csv_utils.h"
 
-/* ============================================================
-   TODO: IMPLEMENT THIS FUNCTION ONLY
-   ============================================================ */
+
 void compute_kernel(Matrix A, Matrix B, Matrix C) {
     int n = A.N;
 
@@ -29,7 +27,7 @@ void compute_kernel(Matrix A, Matrix B, Matrix C) {
         }
     }
 }
-/* ============================================================ */
+
 
 int main() {
 

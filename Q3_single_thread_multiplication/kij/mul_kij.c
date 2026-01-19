@@ -5,32 +5,26 @@
 #include "../../common/timing.h"
 #include "../../common/csv_utils.h"
 
-/* ============================================================
-   TODO: IMPLEMENT THIS FUNCTION ONLY
-   ============================================================ */
+
 void compute_kernel(Matrix A, Matrix B, Matrix C) {
-    /* K-I-J access pattern for matrix multiplication */
-    int N = A.cols;
+    int N = A.N;
     
-    // K loop (innermost computation dimension)
     for (int k = 0; k < N; k++) {
-        // I loop (row dimension)
         for (int i = 0; i < N; i++) {
-            // J loop (column dimension)
             for (int j = 0; j < N; j++) {
-                C.data[i * N + j] += A.data[i * N + k] * B.data[k * N + j];
+                C.data[i][j] += A.data[i][k] * B.data[k][j];
             }
         }
     }
 }
-/* ============================================================ */
+
 
 int main() {
 
     int matrix_sizes[] = {256, 512, 1024, 2048};
     int num_sizes = 4;
 
-    FILE *fp = fopen("../../reports/Q1_results/row_major.csv", "w");
+    FILE *fp = fopen("../../reports/Q3_results/kij.csv", "w");
     fprintf(fp, "matrix_size,threads,time_seconds\n");
     fclose(fp);
 
@@ -50,7 +44,7 @@ int main() {
         double time_taken = stop_timer();
 
         write_csv(
-            "../../reports/Q1_results/row_major.csv",
+            "../../reports/Q3_results/kij.csv",
             N,
             1,
             time_taken

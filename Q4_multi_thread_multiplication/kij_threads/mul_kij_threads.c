@@ -7,13 +7,11 @@
 #include "../../common/thread_utils.h"
 #include "../../common/csv_utils.h"
 
-/* ============================================================
-   TODO: IMPLEMENT THIS FUNCTION ONLY
-   ============================================================ */
+
 void compute_kernel(Matrix A, Matrix B, Matrix C,
                     int start_row, int end_row) {
     int N = A.N;
-    int BS = 32;   // block size
+    int BS = 32;  
 
     for (int kk = 0; kk < N; kk += BS) {
         int k_end = (kk + BS < N) ? kk + BS : N;
@@ -29,7 +27,7 @@ void compute_kernel(Matrix A, Matrix B, Matrix C,
         }
     }
 }
-/* ============================================================ */
+
 
 void* thread_entry(void *arg) {
     thread_arg_t *t = (thread_arg_t*)arg;

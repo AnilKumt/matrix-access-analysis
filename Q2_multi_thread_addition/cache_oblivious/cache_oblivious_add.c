@@ -16,7 +16,7 @@ static void add_recursive(Matrix A, Matrix B, Matrix C,
     int rows = r1 - r0;
     int cols = c1 - c0;
 
-    /* Base case */
+    
     if (rows <= BASE_SIZE && cols <= BASE_SIZE) {
         for (int i = r0; i < r1; i++) {
             for (int j = c0; j < c1; j++) {
@@ -26,7 +26,7 @@ static void add_recursive(Matrix A, Matrix B, Matrix C,
         return;
     }
 
-    /* Recursive divide */
+    
     if (rows >= cols) {
         int rm = r0 + rows / 2;
         add_recursive(A, B, C, r0, rm, c0, c1);
@@ -40,17 +40,15 @@ static void add_recursive(Matrix A, Matrix B, Matrix C,
 
 
 
-/* ============================================================
-   TODO: IMPLEMENT THIS FUNCTION ONLY
-   ============================================================ */
+
 void compute_kernel(Matrix A, Matrix B, Matrix C,
                     int start_row, int end_row) {
-    /* Implement your access pattern here */
+    
 	int n = A.N;
 	
 	add_recursive(A, B, C, start_row, end_row, 0, n);	
 }
-/* ============================================================ */
+
 
 void* thread_entry(void *arg) {
     thread_arg_t *t = (thread_arg_t*)arg;
