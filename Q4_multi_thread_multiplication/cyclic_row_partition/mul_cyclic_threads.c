@@ -7,24 +7,19 @@
 // #include "../../common/thread_utils.h"
 #include "../../common/csv_utils.h"
 
-// Thread argument structure
 typedef struct {
-    int thread_id;   // The ID of this thread
-    int num_threads; // Total number of threads
+    int thread_id;   
+    int num_threads; 
     Matrix *A;
     Matrix *B;
     Matrix *C;
 } thread_arg_t;
 
-/* ============================================================
-   Compute kernel using cyclic row partitioning
-   Each thread computes every num_threads-th row starting from its thread_id
-   ============================================================ */
 void compute_kernel(Matrix A, Matrix B, Matrix C,
                     int thread_id, int num_threads) {
     int N = A.N;
 
-    for (int i = thread_id; i < N; i += num_threads) { // cyclic row assignment
+    for (int i = thread_id; i < N; i += num_threads) { 
         for (int j = 0; j < N; j++) {
             double sum = 0.0;
             for (int k = 0; k < N; k++) {
@@ -34,7 +29,7 @@ void compute_kernel(Matrix A, Matrix B, Matrix C,
         }
     }
 }
-/* ============================================================ */
+
 
 void* thread_entry(void *arg) {
     thread_arg_t *t = (thread_arg_t*)arg;

@@ -7,14 +7,21 @@
 #include "../../common/thread_utils.h"
 #include "../../common/csv_utils.h"
 
-/* ============================================================
-   TODO: IMPLEMENT THIS FUNCTION ONLY
-   ============================================================ */
+
 void compute_kernel(Matrix A, Matrix B, Matrix C,
                     int start_row, int end_row) {
-    /* Implement your access pattern here */
+    int N = A.N;
+    
+    for (int diag = start_row; diag < end_row; diag++) {
+        for (int i = 0; i <= diag && i < N; i++) {
+            int j = diag - i;
+            if (j >= 0 && j < N) {
+                C.data[i][j] = A.data[i][j] + B.data[i][j];
+            }
+        }
+    }
 }
-/* ============================================================ */
+
 
 void* thread_entry(void *arg) {
     thread_arg_t *t = (thread_arg_t*)arg;
@@ -35,7 +42,7 @@ int main() {
     int thread_counts[] = {1, 2, 4, 8, 16};
     int num_threads = 5;
 
-    FILE *fp = fopen("../../reports/Q4_results/blocked.csv", "w");
+    FILE *fp = fopen("../../reports/Q2_results/zigzag.csv", "w");
     fprintf(fp, "matrix_size,threads,time_seconds\n");
     fclose(fp);
 
@@ -79,7 +86,7 @@ int main() {
             double time_taken = stop_timer();
 
             write_csv(
-                "../../reports/Q4_results/blocked.csv",
+                "../../reports/Q2_results/zigzag.csv",
                 N,
                 T,
                 time_taken
@@ -93,3 +100,4 @@ int main() {
 
     return 0;
 }
+

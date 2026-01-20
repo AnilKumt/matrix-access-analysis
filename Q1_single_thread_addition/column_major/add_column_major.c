@@ -5,20 +5,24 @@
 #include "../../common/timing.h"
 #include "../../common/csv_utils.h"
 
-/* ============================================================
-   TODO: IMPLEMENT THIS FUNCTION ONLY
-   ============================================================ */
 void compute_kernel(Matrix A, Matrix B, Matrix C) {
-    /* Implement your access pattern here */
+    int N = A.N;  
+    
+    for (int j = 0; j < N; j++) {
+        for (int i = 0; i < N; i++) {
+            C.data[i][j] = A.data[i][j] + B.data[i][j];
+        }
+    }
+   
 }
-/* ============================================================ */
+
 
 int main() {
 
     int matrix_sizes[] = {256, 512, 1024, 2048};
     int num_sizes = 4;
 
-    FILE *fp = fopen("../../reports/Q1_results/row_major.csv", "w");
+    FILE *fp = fopen("../../reports/Q1_results/column_major.csv", "w");
     fprintf(fp, "matrix_size,threads,time_seconds\n");
     fclose(fp);
 
@@ -38,7 +42,7 @@ int main() {
         double time_taken = stop_timer();
 
         write_csv(
-            "../../reports/Q1_results/row_major.csv",
+            "../../reports/Q1_results/column_major.csv",
             N,
             1,
             time_taken
@@ -51,3 +55,4 @@ int main() {
 
     return 0;
 }
+

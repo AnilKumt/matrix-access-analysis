@@ -5,13 +5,9 @@
 #include "../../common/timing.h"
 #include "../../common/csv_utils.h"
 
-/* ============================================================
-   TODO: IMPLEMENT THIS FUNCTION ONLY
-   ============================================================ */
 void compute_kernel(Matrix A, Matrix B, Matrix C) {
      int N = A.N;
 
-    /* Transpose B into a temporary matrix */
     Matrix BT = allocate_matrix(N);
 
     for (int i = 0; i < N; i++) {
@@ -20,7 +16,6 @@ void compute_kernel(Matrix A, Matrix B, Matrix C) {
         }
     }
 
-    /* Matrix multiplication using transposed B */
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
             double sum = 0.0;
@@ -33,7 +28,7 @@ void compute_kernel(Matrix A, Matrix B, Matrix C) {
 
     free_matrix(BT);
 }
-/* ============================================================ */
+
 
 int main() {
 

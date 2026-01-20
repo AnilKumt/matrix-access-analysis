@@ -7,11 +7,8 @@
 
 #define BLOCK_SIZE 32
 
-/* ============================================================
-   TODO: IMPLEMENT THIS FUNCTION ONLY
-   ============================================================ */
 void compute_kernel(Matrix A, Matrix B, Matrix C) {
-    /* Implement your access pattern here */
+    
 	int n = A.N;
 
 	int bsize = BLOCK_SIZE;
@@ -29,7 +26,7 @@ void compute_kernel(Matrix A, Matrix B, Matrix C) {
 		}
 	}
 }
-/* ============================================================ */
+
 
 int main() {
 
