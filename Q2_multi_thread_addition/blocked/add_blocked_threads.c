@@ -47,7 +47,7 @@ int main() {
 
     int matrix_sizes[] = {256, 512, 1024, 2048};
     int num_sizes = 4;
-    int thread_counts[] = {1, 2, 4, 8, 16};
+    int thread_counts[] = {1, 2, 4, 8,12, 16};
     int num_threads = 5;
 
     FILE *fp = fopen("../../reports/Q2_results/blocked.csv", "w");
