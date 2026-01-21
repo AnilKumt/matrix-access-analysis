@@ -1,4 +1,3 @@
-# HPC Assignment 1  
 ## Matrix Data Access Patterns and Performance Evaluation
 
 ---
@@ -88,5 +87,6 @@ The following access patterns can be explored independently for further study:
 - Software prefetching
 
 These are **not required** but may be implemented individually for deeper understanding.
+
 
 ---
